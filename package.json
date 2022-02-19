@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "express": "^4.17.3",
+    "ganache": "^7.0.2",
+    "web3": "^1.7.0"
+  },
+  "name": "asset-tokenization",
+  "description": "\"# blockchain-service\"",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/braqqet/blockchain-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/braqqet/blockchain-service/issues"
+  },
+  "homepage": "https://github.com/braqqet/blockchain-service#readme"
+}
