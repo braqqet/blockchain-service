@@ -36,9 +36,6 @@ router.get('/tokenize', async (req, res) => {
     const network_id = await web3.eth.net.getId();
     const deployed_id = contract_info.networks[network_id];
 
-    //console.log(network_id);
-    console.log(deployed_id);
-
     // create contract instance
     const contract = await new web3.eth.Contract(contract_info.abi, deployed_id.address);
 
@@ -61,9 +58,6 @@ router.get('/total_assets', async (req, res) => {
     // get network id and contract address
     const network_id = await web3.eth.net.getId();
     const deployed_id = contract_info.networks[network_id];
-
-    //console.log(network_id);
-    console.log(deployed_id);
 
     // create contract instance
     const contract = await new web3.eth.Contract(contract_info.abi, deployed_id.address);
