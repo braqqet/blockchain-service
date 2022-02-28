@@ -37,6 +37,9 @@ contract FractionalAsset {
         _;
     }
 
+    event NewAssetCreatedEvent(address indexed sender, uint asset_id);
+    error NotEnoughFunds(uint requested, uint available);
+
     constructor(){
         owner = msg.sender;
         total_assets = 0;
@@ -49,6 +52,8 @@ contract FractionalAsset {
         Digital_Asset memory asset = Digital_Asset(ticker, amount, token_price, total_supply, 0, block.timestamp, block.timestamp, msg.sender);
         braqqet_assets[asset_id] = asset;
         total_assets+=1;
+        
+        emit NewAssetCreatedEvent(msg.sender, asset_id);
         return asset_id;
     }
 
