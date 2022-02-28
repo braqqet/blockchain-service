@@ -22,7 +22,6 @@ contract FractionalAsset {
         uint created_timestamp;
     }
 
-    //Digital_Asset[] public braqqet_assets; // an array to keep track of all assets ever tokenized
 
     uint public total_assets; // total number of assets tokenized
 
@@ -67,5 +66,56 @@ contract FractionalAsset {
 
     function get_total_assets() external view returns (uint){
         return total_assets;
+    }
+
+    function buy_asset(string calldata user_id, string calldata asset_ticker, uint size) external is_owner returns (bool is_successful){
+
+        // check if user has already bought some assets
+        Portfolio[] storage portfolio = user_portfolio[user_id];
+
+        if (portfolio.length > 0){
+
+            for (uint i = 0; i < portfolio.length; i++){
+                // check if user wants to add to an existing asset
+                if (keccak256(abi.encodePacked((portfolio[i].asset_ticker))) == keccak256(abi.encodePacked((asset_ticker)))) {
+                    portfolio[i].size += size;
+                    portfolio[i].created_timestamp = block.timestamp;
+                    return true; 
+                }
+            }
+
+        } else{
+            Portfolio memory new_portfolio = Portfolio(asset_ticker, size, block.timestamp);
+            portfolio.push(new_portfolio);
+            return true;
+        }
+
+        return false;
+    }
+
+    function sell_asset(string calldata user_id, string calldata asset_ticker, uint size) external is_owner returns (bool is_successful){
+
+        // check if user has already bought some assets
+        Portfolio[] storage portfolio = user_portfolio[user_id];
+
+        if (portfolio.length > 0){
+
+            for (uint i = 0; i < portfolio.length; i++){
+                // check if user wants to add to an existing asset
+                if (keccak256(abi.encodePacked((portfolio[i].asset_ticker))) == keccak256(abi.encodePacked((asset_ticker)))) {
+
+                    // you cannot sell more than you own
+                    if (portfolio[i].size >= size){
+                        portfolio[i].size -= size;
+                        portfolio[i].created_timestamp = block.timestamp;
+                        return true; 
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        return false;
     }
 }
