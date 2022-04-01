@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "^4.17.3",
+    "express-validator": "^6.14.0",
     "ganache": "^7.0.2",
     "nodemon": "^2.0.15",
     "web3": "^1.7.0"
