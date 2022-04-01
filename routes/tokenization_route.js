@@ -2,7 +2,8 @@ const Web3 =  require("web3");
 const fs = require("fs")
 const express = require('express');
 const contract_info = JSON.parse(fs.readFileSync('./build/contracts/FractionalAsset.json', 'utf8'));
-const infura_provider = "http://127.0.0.1:8545";
+//const infura_provider = "http://127.0.0.1:8545";
+const infura_provider = process.env.INFURA_ID
 
 
 
@@ -27,7 +28,11 @@ const connect_to_blockchain = async() => {
 
 
 router.get('/tokenize', async (req, res) => {
-    var data = req.json; // req.body.total_supply
+
+    var total_supply = req.body.total_supply;
+    var asset_ticker = req.body.asset_ticker;
+    var price_per_token = req.body.price_per_token;
+    var asset_total_amount = req.body.total_amount;
 
     // get the Ethereum node
     var web3 = new Web3(new Web3.providers.HttpProvider(infura_provider));
@@ -41,13 +46,13 @@ router.get('/tokenize', async (req, res) => {
 
     var eth_accounts = await web3.eth.getAccounts();
 
-    // call the tokenization function
-    let asset_id = await contract.methods.tokenize("BTC", 25000, 12, 5000).send({
-        from: eth_accounts[0],
-        gasLimit: 1000000
-        });
+    // // call the tokenization function
+    // let asset_id = await contract.methods.tokenize(asset_ticker, asset_total_amount, price_per_token, total_supply).send({
+    //     from: eth_accounts[0],
+    //     gasLimit: 1000000
+    //     });
 
-    res.send({success: true, data: {asset_id: asset_id}});
+    res.send({success: true, data: {asset_ticker: asset_ticker}});
 });
 
 router.get('/total_assets', async (req, res) => {

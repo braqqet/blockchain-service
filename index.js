@@ -14,5 +14,5 @@ app.use('/api/v1', tokenization_route);
 
 // start listening to port
 app.listen(PORT, () => {
-  console.log('listening to port 8080');
+  console.log('listening to port ' + PORT);
 });
