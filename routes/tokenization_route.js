@@ -28,7 +28,7 @@ const connect_to_blockchain = async() => {
 }
 
 
-router.get('/tokenize', 
+router.post('/tokenize', 
     body('total_supply').not().isEmpty(),
     body('asset_ticker').not().isEmpty(),
     body('price_per_token').not().isEmpty(),
