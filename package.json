@@ -2,6 +2,7 @@
   "dependencies": {
     "express": "^4.17.3",
     "ganache": "^7.0.2",
+    "nodemon": "^2.0.15",
     "web3": "^1.7.0"
   },
   "name": "asset-tokenization",
@@ -11,8 +12,12 @@
   "directories": {
     "test": "test"
   },
+  "engines": {
+    "node": "16.X"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",

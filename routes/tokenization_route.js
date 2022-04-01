@@ -75,5 +75,12 @@ router.get('/total_assets', async (req, res) => {
 });
 
 
+router.get('/', (req, res) =>{
+
+    res.send({success: true, data: {page: "homepage"}});
+
+});
+
+
 module.exports = router;
 
