@@ -33,12 +33,12 @@ contract FractionalAsset {
 
     // ensure that only the owner can perform this operation where ever is_owner is used
     modifier is_owner(){
-        require(msg.sender == owner, "Caller is not owner");
+        require(msg.sender == owner, "Caller is not the owner of this contract");
         _;
     }
 
-    event NewAssetCreatedEvent(address indexed sender, uint asset_id);
-    error NotEnoughFunds(uint requested, uint available);
+    event NewAssetCreatedEvent(string asset_ticker, uint asset_token_id);
+    error NotEnoughFunds(string user_id, uint requested, uint available);
 
     constructor(){
         owner = msg.sender;
@@ -53,7 +53,7 @@ contract FractionalAsset {
         braqqet_assets[asset_id] = asset;
         total_assets+=1;
         
-        emit NewAssetCreatedEvent(msg.sender, asset_id);
+        emit NewAssetCreatedEvent(ticker, asset_id);
         return asset_id;
     }
 
@@ -71,6 +71,11 @@ contract FractionalAsset {
 
     function get_total_assets() external view returns (uint){
         return total_assets;
+    }
+
+    
+    function get_owner() external view returns (address){
+        return owner;
     }
 
     function buy_asset(string calldata user_id, string calldata asset_ticker, uint size) external is_owner returns (bool is_successful){
@@ -114,13 +119,15 @@ contract FractionalAsset {
                         portfolio[i].size -= size;
                         portfolio[i].created_timestamp = block.timestamp;
                         return true; 
+                    } else{
+                        revert NotEnoughFunds(user_id, size, portfolio[i].size);
+
                     }
 
                 }
             }
             return false;
         }
-
         return false;
     }
 }

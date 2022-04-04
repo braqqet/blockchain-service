@@ -19,10 +19,10 @@
  */
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-
+require("dotenv").config();
 const fs = require('fs');
-const mnemonic = process.env.MNEOMONIC //fs.readFileSync(".secret").toString().trim();
-const infura_id = process.env.INFURA_ID
+const network = process.env.ETHEREUM_NETWORK;
+const mnemonic = process.env.MNEOMONIC; //fs.readFileSync(".secret").toString().trim();
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -58,7 +58,7 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     rinkeby: {
-    provider: () => new HDWalletProvider(mnemonic, infura_id),
+    provider: () => new HDWalletProvider(mnemonic, `https://${network}.infura.io/v3/${process.env.INFURA_PROJECT_ID}`),
     network_id: 4,       // Ropsten's id
     gas: 5500000,        // Ropsten has a lower block limit than mainnet
     confirmations: 2,    // # of confs to wait between deployments. (default: 0)
