@@ -63,6 +63,8 @@ router.post('/tokenize',
 
         var asset_token_id = '';
         var blockchain_asset_ticker = '';
+        var transaction_hash = '';
+        var block_hash = '';
 
         // get the Ethereum node
         var web3 = new Web3(new Web3.providers.HttpProvider(`https://${network}.infura.io/v3/${process.env.INFURA_PROJECT_ID}`));
@@ -88,12 +90,15 @@ router.post('/tokenize',
                 var event_returned_values = receipt.events.NewAssetCreatedEvent.returnValues;
                 asset_token_id = event_returned_values.asset_token_id;
                 blockchain_asset_ticker = event_returned_values.asset_ticker;
-
-                console.log(`Getting asset id ...` + event_returned_values.asset_id);
+                transaction_hash = receipt.events.NewAssetCreatedEvent.transactionHash;
+                block_hash = receipt.events.NewAssetCreatedEvent.blockHash;
+                console.log(receipt);
               });
             // The transaction is now on chain!
         console.log(`Mined in block ${response.blockNumber}`);
-        res.send({success: true, data: {asset_ticker: blockchain_asset_ticker, asset_id: asset_token_id}});
+        res.send({success: true, data: {asset_ticker: blockchain_asset_ticker, asset_id: asset_token_id, 
+            transaction_hash: transaction_hash,
+        block_hash: block_hash}});
 });
 
 router.get('/total_assets', async (req, res) => {
@@ -116,7 +121,6 @@ router.get('/total_assets', async (req, res) => {
             gasLimit: 25000
         }
     );
-
     res.send({success: true, data: {assets: total_assets}});
 });
 
